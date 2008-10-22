@@ -40,7 +40,7 @@ Foxxtrot.Widgets.Identica = function () {
     	var le = /@(\w+)/g, i;
     	var r = msg.match(le), s;
         
-        for (i = 0 ; i < r.length ; i += 1) {
+        for (i = 0 ; r && i < r.length ; i += 1) {
             s = '<a href="' + svc + r[i].substr(1) + '">' + r[i] + '</a>';
             msg = msg.replace(r,s);
         }
