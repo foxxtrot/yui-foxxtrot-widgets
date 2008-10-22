@@ -35,11 +35,23 @@ Foxxtrot.Widgets.Identica = function () {
             return 'a very long time ago';
         }
     };
+    
+    var _userLink = function(msg) {
+    	var le = /@(\w+)/g, i;
+    	var r = msg.match(le), s;
+        
+        for (i = 0 ; i < r.length ; i += 1) {
+            s = '<a href="' + svc + r[i].substr(1) + '">' + r[i] + '</a>';
+            msg = msg.replace(r,s);
+        }
+        return msg;
+    };
+        
     return {
         updatesCallback: function(dents) {
             var i, text = "";
             for (i = 0 ; i < dents.length ; i += 1) {
-                text += "<li><span>" + dents[i].text + "</span> ";
+                text += "<li><span>" + _userLink(dents[i].text) + "</span> ";
                 text += '<a href="' + svc + 'notice/' + dents[i].id + '">';
                 text += _timePhrase(dents[i].created_at) + "</a></li>";
             }
