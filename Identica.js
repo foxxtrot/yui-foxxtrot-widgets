@@ -46,12 +46,22 @@ Foxxtrot.Widgets.Identica = function () {
         }
         return msg;
     };
-        
+    
+    var _uriLink = function(msg) {
+        var le = /([A-Za-z]+\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g;
+        var r = msg.match(le), s, i;
+        for (i = 0 ; r && i < r.length ; i += 1) {
+            s = '<a href="' + r[i] + '">' + r[i] + '</a>';
+            msg = msg.replace(r[i],s);
+        }
+        return msg;
+    };
+
     return {
         updatesCallback: function(dents) {
             var i, text = "";
             for (i = 0 ; i < dents.length ; i += 1) {
-                text += "<li><span>" + _userLink(dents[i].text) + "</span> ";
+                text += "<li><span>" + _userLink(_uriLink(dents[i].text)) + "</span> ";
                 text += '<a href="' + svc + 'notice/' + dents[i].id + '">';
                 text += _timePhrase(dents[i].created_at) + "</a></li>";
             }
