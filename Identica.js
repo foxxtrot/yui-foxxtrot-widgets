@@ -1,7 +1,20 @@
+/**
+ * Foxxtrot.Widgets.Identica
+ * Copyright 2008 Jeff "foxxtrot" Craig
+ *
+ * This widget collects a given number of entries from a user's timeline
+ * (or the public timeline) and builds an unordered list of them to
+ * place within a given container.
+ *
+ * This module is licensed under the BSD License
+ *
+ * This module requires the Yahoo User Interface (YUI) Library, version 3p0 minimum
+ **/
+
 if (typeof Foxxtrot === 'undefined' || !Foxxtrot) { Foxxtrot = {}; }
 Foxxtrot.Widgets = Foxxtrot.Widgets || {};
 Foxxtrot.Widgets.Identica = function () {
-    var target, svc;
+    var _target, _svc;
     // Requires YUI 3.0
     /**
      * _timePhrase is a private function which calculates what to print for the time
@@ -59,6 +72,14 @@ Foxxtrot.Widgets.Identica = function () {
     };
 
     return {
+				/**
+				 * updatesCallback is a public function which handles the JSONP callback
+				 * It is only meant to be called from the JSONP script returned by the getUpdates method
+				 * This function can be overriden from custom behaviour, if necessary.
+				 *
+				 * @method updatesCallback
+				 * @argument dents JavaScript Object returned by the Laconi.ca service
+				 **/
         updatesCallback: function(dents) {
             var i, text = "";
             for (i = 0 ; i < dents.length ; i += 1) {
@@ -66,14 +87,29 @@ Foxxtrot.Widgets.Identica = function () {
                 text += '<a href="' + svc + 'notice/' + dents[i].id + '">';
                 text += _timePhrase(dents[i].created_at) + "</a></li>";
             }
-            target.set('innerHTML', text);
+            _target.set('innerHTML', text);
         },
+				/**
+				 * getUpdates is a public function which initiates the JSONP request
+				 * to the given service (defaults to identi.ca) for the given user.
+				 * If no user is given, it pulls the public timeline
+				 *
+				 * There are several configuration options available for the optional second argument
+				 * <ul>
+				 *  <li>service_url: The URL of the service to request data from. Defaults to http://identi.ca/</li>
+				 *  <li>user: The Username of the user who's public timeline you want. If this is omitted, the public timeline for the given service will be queried</li>
+				 *  <li>count: The number of timeline updates to query. Defaults to 5</li>
+				 * </ul>
+				 * @method getUpdates
+				 * @argument el The string ID or HTMLElement referencing the container to build the list inside
+				 * @argument o (optional) The configuration object
+				 **/
         getUpdates: function (el, o) {
             var URL;
             o = o || {};
-            target = YUI().use('node', function (Y) { target = Y.get(el) });
-            svc = o.service_url || "http://laconi.ca/";
-            URL = svc + "api/statuses/";
+            YUI().use('node', function (Y) { _target = Y.get(el) });
+            _svc = o.service_url || "http://identi.ca/";
+            URL = _svc + "api/statuses/";
             if (o.user) {
                 URL += "user_timeline/" + o.user + ".json?";
             } else {
@@ -88,7 +124,3 @@ Foxxtrot.Widgets.Identica = function () {
         }
     };
 }();
-
-
-
-
