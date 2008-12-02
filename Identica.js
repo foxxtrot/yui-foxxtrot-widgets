@@ -8,7 +8,7 @@
  *
  * This module is licensed under the BSD License
  *
- * This module requires the Yahoo User Interface (YUI) Library, version 3p0 minimum
+ * This module requires the Yahoo User Interface (YUI) Library, version 3.0.0pr1 minimum
  **/
 
 if (typeof Foxxtrot === 'undefined' || !Foxxtrot) { Foxxtrot = {}; }
@@ -55,7 +55,7 @@ Foxxtrot.Widgets.Identica = function () {
         
         for (i = 0 ; r && i < r.length ; i += 1) {
             s = r[i].substr(1);
-            s = '@<a href="' + svc + s + '">' + s + '</a>';
+            s = '@<a href="' + _svc + s + '">' + s + '</a>';
             msg = msg.replace(r[i],s);
         }
         return msg;
@@ -84,7 +84,7 @@ Foxxtrot.Widgets.Identica = function () {
             var i, text = "";
             for (i = 0 ; i < dents.length ; i += 1) {
                 text += "<li><span>" + _userLink(_uriLink(dents[i].text)) + "</span> ";
-                text += '<a href="' + svc + 'notice/' + dents[i].id + '">';
+                text += '<a href="' + _svc + 'notice/' + dents[i].id + '">';
                 text += _timePhrase(dents[i].created_at) + "</a></li>";
             }
             _target.set('innerHTML', text);
