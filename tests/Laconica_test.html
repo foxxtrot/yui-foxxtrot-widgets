@@ -2,7 +2,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Identica Test</title>
-        <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0pr1/build/yui/yui-min.js"></script>
     </head>
     <body>
         <div id="identica_div" class="widget-identica widget">
@@ -13,11 +12,12 @@
             </ul>
           </div>
         </div>
-        <script type="text/javascript" src="../Identica.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0pr1/build/yui/yui-min.js"></script>
+        <script type="text/javascript" src="../src/Foxxtrot/Widgets/Laconica.js"></script>
         <script type="text/javascript">
-        Foxxtrot.Widgets.Identica.getUpdates('#army_update_list', 
+        Foxxtrot.Widgets.Laconica.getUpdates('#army_update_list',
             {count: 3, user: 'foxxtrot', 
-             service_url: 'http://army.twit.tv/'});
+             service_url: './data/'});
         </script>
     </body>
 </html>

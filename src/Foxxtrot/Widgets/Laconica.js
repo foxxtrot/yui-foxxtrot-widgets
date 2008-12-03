@@ -1,5 +1,5 @@
 /**
- * Foxxtrot.Widgets.Identica
+ * Foxxtrot.Widgets.Laconica
  * Copyright 2008 Jeff "foxxtrot" Craig
  *
  * This widget collects a given number of entries from a user's timeline
@@ -13,7 +13,7 @@
 
 if (typeof Foxxtrot === 'undefined' || !Foxxtrot) { Foxxtrot = {}; }
 Foxxtrot.Widgets = Foxxtrot.Widgets || {};
-Foxxtrot.Widgets.Identica = function () {
+Foxxtrot.Widgets.Laconica = function () {
     var _target, _svc;
     // Requires YUI 3.0
     /**
@@ -99,6 +99,7 @@ Foxxtrot.Widgets.Identica = function () {
 				 *  <li>service_url: The URL of the service to request data from. Defaults to http://identi.ca/</li>
 				 *  <li>user: The Username of the user who's public timeline you want. If this is omitted, the public timeline for the given service will be queried</li>
 				 *  <li>count: The number of timeline updates to query. Defaults to 5</li>
+				 *  <li>callback: Name of the function to callback to. This is Optional</li>
 				 * </ul>
 				 * @method getUpdates
 				 * @argument el The string ID or HTMLElement referencing the container to build the list inside
@@ -119,7 +120,7 @@ Foxxtrot.Widgets.Identica = function () {
             o.count = o.count || 5;
             URL += "count=" + o.count + "&";
 
-            URL += "callback=Foxxtrot.Widgets.Identica.updatesCallback";
+            URL += "callback=" + (o.callback || "Foxxtrot.Widgets.Laconica.updatesCallback");
             YUI().Get.script(URL);
         }
     };
