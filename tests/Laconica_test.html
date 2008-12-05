@@ -1,23 +1,136 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Identica Test</title>
+        <title>Laconica Test</title>
+        <!-- YUI Test Includes -->
+        <!-- We're using the YUI Test 2.6.0 framework, becuase the YUI 3.0.0 Testing Framework is unreleased -->
+        <!--CSS-->
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/logger/assets/logger.css">
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/yuitest/assets/testlogger.css">
+
+		<!-- Dependencies -->
+		<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+		<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/logger/logger-min.js"></script>
+
+		<!-- Source File -->
+		<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/yuitest/yuitest-min.js"></script>
     </head>
     <body>
-        <div id="identica_div" class="widget-identica widget">
-          <h2 class="identica-title">μ-updates</h2>
-          <div class="widget-content">
-            <ul id="army_update_list" class="widget-list-item">
-              <li>No Updates!</li>
-            </ul>
-          </div>
-        </div>
         <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0pr1/build/yui/yui-min.js"></script>
         <script type="text/javascript" src="../src/Foxxtrot/Widgets/Laconica.js"></script>
         <script type="text/javascript">
-        Foxxtrot.Widgets.Laconica.getUpdates('#army_update_list',
-            {count: 3, user: 'foxxtrot', 
-             service_url: './data/'});
+			var fwl = Foxxtrot.Widgets.Laconica;
+
+			fwl.Tests = new YAHOO.tool.TestSuite("Laconica Widget Tests");
+
+			fwl.Tests.add(new YAHOO.tool.TestCase({
+				name: "_uriLink Tests",
+
+				// Setup and Tear Down
+				setUp: function () {
+					this.uri1 = "http://blog.foxxtrot.net/";
+					this.uri1_expected = '<a href="' + this.uri1 + '">' + this.uri1 + '</a>';
+					this.uri2 = "http://search.yahoo.com/search?p=yui&ei=UTF-8&fr=moz2";
+					this.uri2_expected = '<a href="' + this.uri2 + '">' + this.uri2 + '</a>';
+					this.message1 = "Test Message";
+					this.message2 = "Second Test Message";
+				},
+				tearDown: function () {
+					delete this.uri1;
+					delete this.uri1_expected;
+					delete this.uri2;
+					delete this.uri2_expected;
+					delete this.message1;
+					delete this.message2;
+				},
+
+				// Tests
+				testSimple: function () {
+					YAHOO.util.Assert.areEqual(this.uri1_expected, fwl._uriLink(this.uri1));
+				},
+				testBegining: function () {
+					var message = this.message1 + ' ' + this.uri1;
+					var expected = this.message1 + ' ' + this.uri1_expected;
+					YAHOO.util.Assert.areEqual(expected, fwl._uriLink(message));
+				},
+				testEnd: function () {
+					var message = this.uri1 + ' ' + this.message1;
+					var expected = this.uri1_expected + ' ' + this.message1;
+					YAHOO.util.Assert.areEqual(expected, fwl._uriLink(message));
+				},
+				testMiddle: function () {
+					var message = this.message1 + ' ' + this.uri1 + ' ' + this.message2;
+					var expected = this.message1 + ' ' + this.uri1_expected + ' ' + this.message2;
+					YAHOO.util.Assert.areEqual(expected, fwl._uriLink(message));
+				},
+				testMultiple_Same: function () {
+					var message = this.message1 + ' ' + this.uri1 + ' ' + this.uri1 + ' ' + this.message2;
+					var expected = this.message1 + ' ' + this.uri1_expected + ' ' + this.uri1_expected + ' '  + this.message2;
+					YAHOO.util.Assert.areEqual(expected, fwl._uriLink(message));
+				},
+				testMultiple_Different: function () {
+					var message = this.message1 + ' ' + this.uri1 + ' ' + this.uri2 + ' ' + this.message2;
+					var expected = this.message1 + ' ' + this.uri1_expected + ' ' + this.uri2_expected + ' '  + this.message2;
+					YAHOO.util.Assert.areEqual(expected, fwl._uriLink(message));
+				}
+			}));
+
+			fwl.Tests.add(new YAHOO.tool.TestCase({
+				name: "_userLink Tests",
+
+				// Setup and Tear Down
+				setUp: function () {
+					this.userName1 = "@foxxtrot";
+					this.userName1_Expected = '@<a href="/' + this.userName1.substr(1) + '">' + this.userName1.substr(1) + "</a>";
+					this.userName2 = "@github";
+					this.userName2_Expected = '@<a href="/' + this.userName2.substr(1) + '">' + this.userName2.substr(1) + "</a>";
+					this.message1 = "Test Message";
+					this.message2 = "Second Test Message";
+				},
+				tearDown: function () {
+					delete this.userName1;
+					delete this.userName1_Expected;
+					delete this.message1;
+					delete this.message2;
+				},
+
+				// Tests
+				testSimple: function () {
+					YAHOO.util.Assert.areEqual(this.userName1_Expected, fwl._userLink(this.userName1));
+				},
+				testBeginning: function() {
+					var message = this.userName1 + ' ' + this.message1;
+					var expected = this.userName1_Expected + ' ' + this.message1;
+					YAHOO.util.Assert.areEqual(expected, fwl._userLink(message));
+				},
+				testEnd: function () {
+					var message = this.message1 + ' ' + this.userName1;
+					var expected = this.message1 + ' ' + this.userName1_Expected;
+					YAHOO.util.Assert.areEqual(expected, fwl._userLink(message));
+				},
+				testMiddle: function () {
+					var message = this.message1 + ' ' + this.userName1 + ' ' + this.message2;
+					var expected = this.message1 + ' ' + this.userName1_Expected + ' ' + this.message2;
+					YAHOO.util.Assert.areEqual(expected, fwl._userLink(message));
+				},
+				testMultiple_Same: function () {
+					var message = this.message1 + ' ' + this.userName1 + ' ' + this.userName1 + ' ' + this.message2;
+					var expected = this.message1 + ' ' + this.userName1_Expected + ' ' + this.userName1_Expected + ' ' + this.message2;
+					YAHOO.util.Assert.areEqual(expected, fwl._userLink(message));
+				},
+				testMultiple_Different: function () {
+					var message = this.message1 + ' ' + this.userName1 + ' ' + this.userName2 + ' ' + this.message2;
+					var expected = this.message1 + ' ' + this.userName1_Expected + ' ' + this.userName2_Expected + ' ' + this.message2;
+					YAHOO.util.Assert.areEqual(expected, fwl._userLink(message));
+				}
+			}));
+
+			YAHOO.util.Event.onDOMReady(function (){
+				var logger = new YAHOO.tool.TestLogger();
+				YAHOO.tool.TestRunner.add(fwl.Tests);
+				YAHOO.tool.TestRunner.run();
+			});
+
         </script>
     </body>
 </html>
