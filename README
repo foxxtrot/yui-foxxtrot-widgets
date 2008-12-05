@@ -1,0 +1,10 @@
+JavaScript Widgets authored by Jeff 'foxxtrot' Craig
+
+These Widgets are all built upon the Yahoo User Interface (YUI) Library
+
+Widgets:
+
+Foxxtrot.Widgets.Laconica - Use JSONP to get Public Timeline posts from any
+	Laconica service. This defaults to Identi.ca.
+	An example runs on the sidebar of http://blog.foxxtrot.net/
+	Requires YUI 3.0.0pr1
